@@ -5,7 +5,7 @@ Insert or Remove SSH Keys from Remote Servers
 Simply run the script with an IP range
 
 ```
-python updatekeys.py 192.168.1.100 192.168.1.100
+python updatekeys.py 192.168.1.50 192.168.2.120
 ```
 
 This will run the script within the IP range, inclusively.
