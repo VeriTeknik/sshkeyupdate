@@ -9,12 +9,13 @@ import socket
 import sys
 import ConfigParser
 
-def isSSHport(hostname, port, timeout):
+
+def is_ssh_port(hostname, port, timeout):
     """Check if 22 is an SSH port on host"""
     try:
         socket.setdefaulttimeout(timeout)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((hostname,port))
+        s.connect((hostname, port))
         s.sendall("a")
         s.shutdown(socket.SHUT_WR)
         data = s.recv(1024)
@@ -25,28 +26,33 @@ def isSSHport(hostname, port, timeout):
     except:
         return False
 
-def insertKEY(newKey, filename, ssh):
+
+def insert_key(newKey, filename, ssh):
     """insert key to file"""
     ssh.exec_command("grep -q -F '%s' %s || echo %s >> %s" % (newKey, filename, newKey, filename))
 
-def replaceKEY(newKey, oldKey, filename, ssh):
+
+def replace_key(newKey, oldKey, filename, ssh):
     """replace key at file, obselete"""
     ssh.exec_command("sed -i 's;%s;%s;g' %s" % (oldKey, newKey, filename))
 
-def deleteKEY(oldKey, filename, ssh):
+
+def delete_key(oldKey, filename, ssh):
     """delete key from file"""
     ssh.exec_command("sed -i '/%s/d' %s" % (oldKey, filename))
 
-def checkSSHFile(filename, ssh):
+
+def check_ssh_file(filename, ssh):
     """check if ssh file exists"""
     stdin, stdout, stderr = ssh.exec_command("[ ! -f %s ] && echo \"0\"" % filename)
-    output=stdout.readlines()
+    output = stdout.readlines()
     if len(output) == 0:
         return True
     else:
         return False
 
-def ipRange(start_ip, end_ip):
+
+def create_ip_range(start_ip, end_ip):
     """create range of ip addresses"""
     start = list(map(int, start_ip.split(".")))
     end = list(map(int, end_ip.split(".")))
@@ -59,15 +65,16 @@ def ipRange(start_ip, end_ip):
         for i in (3, 2, 1):
             if temp[i] == 256:
                 temp[i] = 0
-                temp[i-1] += 1
+                temp[i - 1] += 1
         ip_range.append(".".join(map(str, temp)))
 
     return ip_range
 
+
 if __name__ == "__main__":
 
     # Check Argument Length
-    if len(sys.argv) < 3 :
+    if len(sys.argv) < 3:
         print("Enter the IP Range.")
         raise SystemExit
 
@@ -76,7 +83,7 @@ if __name__ == "__main__":
 
     # Generate IP Ranges
     try:
-        iprange = ipRange(first_ip, second_ip)
+        iprange = create_ip_range(first_ip, second_ip)
     except Exception, e:
         print("Probable IP Range Definition Error")
         print(str(e))
@@ -90,7 +97,6 @@ if __name__ == "__main__":
             break
         if answer == "no":
             raise SystemExit
-
 
     # Check the settings in config file
     try:
@@ -132,7 +138,6 @@ if __name__ == "__main__":
     else:
         DELETE_MODE = False
 
-
     # log = open("keys_log", "a")
 
     # Create SSH Connection Instance and Private Key File Instance
@@ -142,7 +147,7 @@ if __name__ == "__main__":
     not_found = []
     for ip in iprange:
         s_con_stat = 0
-        if isSSHport(ip, port, 1):
+        if is_ssh_port(ip, port, 1):
             try:
                 ssh.connect(hostname=ip, port=port, username=user, pkey=key, timeout=timeout)
                 s_con_stat = 1
@@ -151,24 +156,24 @@ if __name__ == "__main__":
                 print(str(e))
                 s_con_stat = 0
             if s_con_stat:
-                if checkSSHFile(authfile, ssh):
+                if check_ssh_file(authfile, ssh):
                     if INSERT_MODE:
                         for i in INSERT_keys:
-                            insertKEY(i, authfile, ssh)
+                            insert_key(i, authfile, ssh)
                             print("Key %s inserted to file %s at %s" % (i, authfile, ip))
                     if DELETE_MODE:
                         for i in DELETE_keys:
-                            deleteKEY(i, authfile, ssh)
+                            delete_key(i, authfile, ssh)
                             print("Key %s deleted from file %s at %s" % (i, authfile, ip))
 
-                elif checkSSHFile(authfile2, ssh):
+                elif check_ssh_file(authfile2, ssh):
                     if INSERT_MODE:
                         for i in INSERT_keys:
-                            insertKEY(i, authfile2, ssh)
+                            insert_key(i, authfile2, ssh)
                             print("Key %s inserted to file %s at %s" % (i, authfile2, ip))
                     if DELETE_MODE:
                         for i in DELETE_keys:
-                            deleteKEY(i, authfile2, ssh)
+                            delete_key(i, authfile2, ssh)
                             print("Key %s deleted from file %s at %s" % (i, authfile2, ip))
         else:
             print("SSH Port Not Found at : %s" % ip)
