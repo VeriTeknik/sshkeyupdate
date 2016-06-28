@@ -23,7 +23,8 @@ def is_ssh_port(hostname, port, timeout):
             return True
         else:
             return False
-    except:
+    except Exception as err:
+        print("Exception occurred: {0}".format(str(err)))
         return False
 
 
@@ -84,9 +85,8 @@ if __name__ == "__main__":
     # Generate IP Ranges
     try:
         iprange = create_ip_range(first_ip, second_ip)
-    except Exception, e:
-        print("Probable IP Range Definition Error")
-        print(str(e))
+    except Exception as err:
+        print("Probable IP Range Definition Error: {0}".format(str(err)))
         raise SystemExit
 
     for i in iprange:
@@ -102,9 +102,8 @@ if __name__ == "__main__":
     try:
         config = ConfigParser.ConfigParser()
         config.read('config')
-    except Exception, e:
-        print("Config read failed")
-        print(str(e))
+    except Exception as err:
+        print("Config read failed: {0}".format(str(err)))
         raise SystemExit
 
     try:
@@ -115,9 +114,8 @@ if __name__ == "__main__":
         authfile2 = config.get('connect', 'authfile2')
         timeout = config.getint('connect', 'timeout')
         port = config.getint('connect', 'port')
-    except Exception, e:
-        print("Error Parsing the config file")
-        print(str(e))
+    except Exception as err:
+        print("Error Parsing the config file: {0}".format(str(err)))
         raise SystemExit
 
     # Get Keys to INSERT, if any
@@ -151,9 +149,9 @@ if __name__ == "__main__":
             try:
                 ssh.connect(hostname=ip, port=port, username=user, pkey=key, timeout=timeout)
                 s_con_stat = 1
-            except Exception, e:
+            except Exception as err:
                 print("Error while connecting to : %s" % ip)
-                print(str(e))
+                print("Error: {0}".format(str(err)))
                 s_con_stat = 0
             if s_con_stat:
                 if check_ssh_file(authfile, ssh):
@@ -176,7 +174,7 @@ if __name__ == "__main__":
                             delete_key(i, authfile2, ssh)
                             print("Key %s deleted from file %s at %s" % (i, authfile2, ip))
         else:
-            print("SSH Port Not Found at : %s" % ip)
+            print("SSH Port Not Found at : {0}".format(ip))
             not_found.append(ip)
 
     print("End of Script")
