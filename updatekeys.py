@@ -150,7 +150,7 @@ if __name__ == "__main__":
                 ssh.connect(hostname=ip, port=port, username=user, pkey=key, timeout=timeout)
                 s_con_stat = 1
             except Exception as err:
-                print("Error while connecting to : %s" % ip)
+                print("Error while connecting to : {0}".format(ip))
                 print("Error: {0}".format(str(err)))
                 s_con_stat = 0
             if s_con_stat:
@@ -158,21 +158,21 @@ if __name__ == "__main__":
                     if INSERT_MODE:
                         for i in INSERT_keys:
                             insert_key(i, authfile, ssh)
-                            print("Key %s inserted to file %s at %s" % (i, authfile, ip))
+                            print("Key {0} inserted to file {1} at {2}".format(i, authfile, ip))
                     if DELETE_MODE:
                         for i in DELETE_keys:
                             delete_key(i, authfile, ssh)
-                            print("Key %s deleted from file %s at %s" % (i, authfile, ip))
+                            print("Key {0} deleted from file {1} at {2}".format(i, authfile, ip))
 
                 elif check_ssh_file(authfile2, ssh):
                     if INSERT_MODE:
                         for i in INSERT_keys:
                             insert_key(i, authfile2, ssh)
-                            print("Key %s inserted to file %s at %s" % (i, authfile2, ip))
+                            print("Key {0} inserted to file {1} at {2}".format(i, authfile2, ip))
                     if DELETE_MODE:
                         for i in DELETE_keys:
                             delete_key(i, authfile2, ssh)
-                            print("Key %s deleted from file %s at %s" % (i, authfile2, ip))
+                            print("Key {0} deleted from file {1} at {2}".format(i, authfile2, ip))
         else:
             print("SSH Port Not Found at : {0}".format(ip))
             not_found.append(ip)
