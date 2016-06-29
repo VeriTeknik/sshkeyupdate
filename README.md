@@ -70,3 +70,5 @@ You don't have to include the **ssh-rsa** part for deletion. It simply checks if
 * Alternative port scan: Port value in the config should take multiple port numbers and each should be tried untill success
 * Python 3.0+ support: Especially handling socket values is different in Python 3.0. This should be taken into account.
 * Multiple authfile edit: A check if the first authfile doesn't exist is done. Yet editing of multiple authfiles is not supported. A wildcard might be used like '/home/*/.ssh/authorized_keys' which will get to every user's auth file.
+* Collect: Collecting current keys in the server might help to find suspecious keys in the network.
+* Replace: Replacing the whole authorized keys file might be an option.
