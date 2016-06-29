@@ -38,7 +38,7 @@ The **authfile** and **authfile2** values are the path of the **authorized keys*
 
 The **insert** and **delete** sections are where you specify what keys to insert or delete. The field name is for ease of use, you need to specify one, but it is not relevant. The value is used in the "sed" line at the remote server, to use the full line for the insert lines. Yet you do not have to specify the full key in the delete section, only part of the key will be enough. Just make sure that part is not a common one.
 
-Please note that for ease of explanation, my public key is in the insert section by default, delete that line before proceeding.
+Please note that for ease of explanation, my public key is in the insert section by default, **delete that line** before proceeding.
 
 You don't have to include the **ssh-rsa** part for deletion. It simply checks if the values you specify are in the line, and deletes the whole line. So dont write only **a** to the delete line, it will delete all lines that has the letter **a** in it!
 
