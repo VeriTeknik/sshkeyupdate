@@ -4,6 +4,7 @@ Insert or Remove SSH Keys from Remote Servers
 ## Requirements
 
 On the client-side needs Python 2.7 and the [paramiko](http://www.paramiko.org/) Python library.
+(Python 3.0 is not supported but is planned.)
 
 You can install paramiko like
 
@@ -65,4 +66,7 @@ Please note that for ease of explanation, my public key is in the insert section
 
 You don't have to include the **ssh-rsa** part for deletion. It simply checks if the values you specify are in the line, and deletes the whole line. So don't write only **a** to the delete line, it will delete all lines that has the letter **a** in it!
 
-
+# To-Do
+* Alternative port scan: Port value in the config should take multiple port numbers and each should be tried untill success
+* Python 3.0+ support: Especially handling socket values is different in Python 3.0. This should be taken into account.
+* Multiple authfile edit: A check if the first authfile doesn't exist is done. Yet editing of multiple authfiles is not supported. A wildcard might be used like '/home/*/.ssh/authorized_keys' which will get to every user's auth file.
