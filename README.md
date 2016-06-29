@@ -3,7 +3,7 @@ Insert or Remove SSH Keys from Remote Servers
 
 ## Requirements
 
-On the clients side needs Python 2.7 and the [paramiko](http://www.paramiko.org/) Python library.
+On the client-side needs Python 2.7 and the [paramiko](http://www.paramiko.org/) Python library.
 
 You can install paramiko like
 
@@ -21,6 +21,8 @@ Then simply clone this repo.
 ```
 git clone https://github.com/VeriTeknik/sshkeyupdate.git
 ```
+
+The server-side only needs sed and grep, which are default on most Unix systems.
 
 ## IP Range
 Simply run the script with an IP range
