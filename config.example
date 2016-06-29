@@ -1,0 +1,7 @@
+[connect]
+user : root
+keyfile : /path/top/private/key/.ssh/id_rsa
+keypass : SuperSecretKeyFilePassword
+authfile : /root/.ssh/authorized_keys
+authfile2 : /root/.ssh/authorized_keys2
+timeout : 10
