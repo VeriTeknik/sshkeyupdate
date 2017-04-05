@@ -173,24 +173,25 @@ if __name__ == "__main__":
                 s_con_stat = 0
             if s_con_stat:
                 if check_ssh_file(authfile, ssh):
-                    if INSERT_MODE:
-                        for i in INSERT_keys:
-                            insert_key(i, authfile, ssh)
-                            print("Key {0} inserted to file {1} at {2}".format(i, authfile, ip))
                     if DELETE_MODE:
                         for i in DELETE_keys:
                             delete_key(i, authfile, ssh)
                             print("Key {0} deleted from file {1} at {2}".format(i, authfile, ip))
-
-                elif check_ssh_file(authfile2, ssh):
                     if INSERT_MODE:
                         for i in INSERT_keys:
-                            insert_key(i, authfile2, ssh)
-                            print("Key {0} inserted to file {1} at {2}".format(i, authfile2, ip))
+                            insert_key(i, authfile, ssh)
+                            print("Key {0} inserted to file {1} at {2}".format(i, authfile, ip))
+
+                elif check_ssh_file(authfile2, ssh):
                     if DELETE_MODE:
                         for i in DELETE_keys:
                             delete_key(i, authfile2, ssh)
                             print("Key {0} deleted from file {1} at {2}".format(i, authfile2, ip))
+                    if INSERT_MODE:
+                        for i in INSERT_keys:
+                            insert_key(i, authfile2, ssh)
+                            print("Key {0} inserted to file {1} at {2}".format(i, authfile2, ip))
+
         else:
             print("SSH Port Not Found at : {0}".format(ip))
             not_found.append(ip)
