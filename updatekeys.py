@@ -13,6 +13,8 @@ import ConfigParser
 def is_ssh_port(hostname, ports, timeout):
     """Check if 22 is an SSH port on host"""
 
+    port = False
+
     for port in ports.split(','):
         try:
             socket.setdefaulttimeout(timeout)
