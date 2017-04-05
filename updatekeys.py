@@ -10,23 +10,27 @@ import sys
 import ConfigParser
 
 
-def is_ssh_port(hostname, port, timeout):
+def is_ssh_port(hostname, ports, timeout):
     """Check if 22 is an SSH port on host"""
-    try:
-        socket.setdefaulttimeout(timeout)
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((hostname, port))
-        s.sendall("a")
-        s.shutdown(socket.SHUT_WR)
-        data = s.recv(1024)
-        if "SSH" in data:
-            return True
-        else:
-            return False
-    except Exception as err:
-        print("Exception occurred: {0}".format(str(err)))
-        return False
 
+    for port in ports.split(','):
+        try:
+            socket.setdefaulttimeout(timeout)
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            port = int(port.strip())
+            s.connect((hostname,port))
+            s.sendall("a")
+            s.shutdown(socket.SHUT_WR)
+            data = s.recv(1024)
+            if "SSH" in data:
+                return port
+            else:
+                port = False
+        except Exception as err:
+            print("Exception occurred: {0}".format(str(err)))
+            port = False
+    if not port:
+        return False
 
 def insert_key(newKey, filename, ssh):
     """insert key to file"""
@@ -113,7 +117,7 @@ if __name__ == "__main__":
         authfile = config.get('connect', 'authfile')
         authfile2 = config.get('connect', 'authfile2')
         timeout = config.getint('connect', 'timeout')
-        port = config.getint('connect', 'port')
+        ports = config.get('connect', 'port')
     except Exception as err:
         print("Error Parsing the config file: {0}".format(str(err)))
         raise SystemExit
@@ -145,7 +149,8 @@ if __name__ == "__main__":
     not_found = []
     for ip in iprange:
         s_con_stat = 0
-        if is_ssh_port(ip, port, 1):
+        port = is_ssh_port(ip, ports, 1)
+        if port:
             try:
                 ssh.connect(hostname=ip, port=port, username=user, pkey=key, timeout=timeout)
                 s_con_stat = 1
