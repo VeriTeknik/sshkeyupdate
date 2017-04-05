@@ -24,9 +24,15 @@ def is_ssh_port(hostname, ports, timeout):
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             port = int(port.strip())
             s.connect((hostname,port))
-            s.sendall("a")
+            if sys.version_info[0] == 2:
+                s.sendall("a")
+            else:
+                s.sendall("a".encode())
             s.shutdown(socket.SHUT_WR)
-            data = s.recv(1024)
+            if sys.version_info[0] == 2:
+                data = s.recv(1024)
+            else:
+                data = s.recv(1024).decode()
             if "SSH" in data:
                 return port
             else:
