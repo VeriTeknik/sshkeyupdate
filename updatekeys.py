@@ -7,7 +7,10 @@
 import paramiko
 import socket
 import sys
-import ConfigParser
+if sys.version_info[0] == 2:
+    import ConfigParser as configparser
+else:
+    import configparser
 
 
 def is_ssh_port(hostname, ports, timeout):
@@ -107,7 +110,7 @@ if __name__ == "__main__":
 
     # Check the settings in config file
     try:
-        config = ConfigParser.ConfigParser()
+        config = configparser.ConfigParser()
         config.read('config')
     except Exception as err:
         print("Config read failed: {0}".format(str(err)))
