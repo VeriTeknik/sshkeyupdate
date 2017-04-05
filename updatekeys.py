@@ -97,7 +97,7 @@ if __name__ == "__main__":
         raise SystemExit
 
     for i in iprange:
-        print i
+        print(i)
     while True:
         answer = raw_input("These are the hosts to connect. Continue?\n(yes/no)")
         if answer == "yes":
