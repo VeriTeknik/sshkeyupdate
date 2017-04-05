@@ -3,8 +3,7 @@ Insert or Remove SSH Keys from Remote Servers
 
 ## Requirements
 
-On the client-side needs Python 2.7 and the [paramiko](http://www.paramiko.org/) Python library.
-(Python 3.0 is not supported but is planned.)
+On the client-side needs Python 2.7 or Python 3.0+ and the [paramiko](http://www.paramiko.org/) Python library.
 
 You can install paramiko like
 
