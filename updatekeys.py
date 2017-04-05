@@ -34,6 +34,7 @@ def is_ssh_port(hostname, ports, timeout):
     if not port:
         return False
 
+
 def insert_key(newKey, filename, ssh):
     """insert key to file"""
     ssh.exec_command("grep -q -F '%s' %s || echo %s >> %s" % (newKey, filename, newKey, filename))
