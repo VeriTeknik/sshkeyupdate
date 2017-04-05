@@ -34,11 +34,12 @@ def is_ssh_port(hostname, ports, timeout):
             else:
                 data = s.recv(1024).decode()
             if "SSH" in data:
+                print("Connection Success! IP: {0} Port: {1}".format(hostname, port))
                 return port
             else:
                 port = False
         except Exception as err:
-            print("Exception occurred: {0}".format(str(err)))
+            print("Exception occurred: {0} - IP: {1} Port: {2}".format(str(err), hostname, port))
             port = False
     if not port:
         return False
